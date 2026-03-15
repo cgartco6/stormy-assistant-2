@@ -32,4 +32,28 @@ def deploy_to_render():
         print("📦 Initializing git repository...")
         subprocess.run(['git', 'init'])
         subprocess.run(['git', 'add', '.'])
-        subprocess.run(['git', '
+        subprocess.run(['git', 'commit', '-m', 'Initial commit for Render deployment'])
+    
+    # Check Render CLI
+    if not check_render_cli():
+        print("📦 Installing Render CLI...")
+        subprocess.run(['npm', 'install', '-g', '@render/cli'])
+    
+    # Login to Render (interactive)
+    print("🔑 Please log in to Render:")
+    subprocess.run(['render', 'login'])
+    
+    # Deploy
+    print("🚀 Deploying to Render...")
+    result = subprocess.run(['render', 'deploy'], capture_output=True, text=True)
+    
+    if result.returncode == 0:
+        print("✅ Deployment initiated!")
+        print("📊 Check status at: https://dashboard.render.com")
+        return True
+    else:
+        print(f"❌ Deployment failed: {result.stderr}")
+        return False
+
+if __name__ == '__main__':
+    deploy_to_render()
