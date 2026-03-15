@@ -1,0 +1,8 @@
+
+---
+
+### **Core Module Files**
+
+#### **`core/__init__.py`**
+```python
+"""Stormy Core Engine"""
